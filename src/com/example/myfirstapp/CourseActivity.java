@@ -10,6 +10,8 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONStringer;
 import org.json.JSONException;
 
 import com.wikitude.architect.ArchitectUrlListener;
@@ -250,7 +252,7 @@ public class CourseActivity extends Activity implements LocationListener, Archit
 				landMineBeans.add(landMineBean);
 			}
 			
-		this.architectView.callJavascript("newData(" + array.toString() + ");");
+			this.architectView.callJavascript("newData(" + array.toString() + ");");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -325,10 +327,17 @@ public class CourseActivity extends Activity implements LocationListener, Archit
 				text += "Distance to nearest landmine is " + df.format(distanceToClosestMine()) + " metres\n";
 			}
 		}
+
+		try {
+			JSONObject json = new JSONObject(text);
+			this.architectView.callJavascript(json.toString());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		
-		this.architectView.callJavascript("newStatus(" + text + ");");
 		
-		Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+		
+		Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
 		
 	}
 	

@@ -208,6 +208,10 @@
                 
             }
             
+            function newStatus(text) {
+            	document.getElementById("statusElement").innerHTML = "Location changed!\n" + text;
+            }
+            
             // Called if loading of the image fails.
             function errorLoadingImage() {
                 // set error message on HUD

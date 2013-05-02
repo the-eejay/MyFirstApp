@@ -31,9 +31,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 
@@ -49,6 +55,7 @@ public class CourseActivity extends Activity implements LocationListener, Archit
 	private Location hackOutLoc;
 	private List<Location> landMineLocs = new ArrayList<Location>();
 	private String button;
+	private TextView myText;
 	private final double[] courseOne = {
 			-27.562396,
 			153.04050, // Hack In Point
@@ -197,7 +204,9 @@ public class CourseActivity extends Activity implements LocationListener, Archit
 		
 		if (button.equals("Button1")) {
 			course = courseOne;
-		} else {
+		} else if (button.equals("Button2")) {
+			course = courseTwo;
+		} else { // No more courses yet.
 			course = courseTwo;
 		}
 		
@@ -309,7 +318,7 @@ public class CourseActivity extends Activity implements LocationListener, Archit
 			
 			if (distanceToClosestMine() <= PROXIMITY) {
 				text = "You just walked over the land mine.  Game Over.";
-				builder.setMessage("You just got blown up.  Why would you get blown up?\n" +
+				builder.setMessage("You just got blown up.\n  Why would you get blown up?\n" +
 						"You'll never make it as a spy if you get blown up.").show();
 				gameStarted = false;
 			} else {
@@ -317,7 +326,9 @@ public class CourseActivity extends Activity implements LocationListener, Archit
 			}
 		}
 		
-		if (!text.isEmpty()) Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+		this.architectView.callJavascript("newStatus(" + text + ");");
+		
+		Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
 		
 	}
 	
